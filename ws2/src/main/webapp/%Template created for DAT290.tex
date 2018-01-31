@@ -1,0 +1,414 @@
+%Template created for DAT290
+%Per Larsson-Edefors, Chalmers
+%v2013: 2013-08-21
+%v2014: 2014-08-28, 2014-11-11
+%v2015: 2015-08-24
+
+
+\documentclass[a4paper]{article}
+
+%Mathtools for writing formulas
+\usepackage{mathtools}
+
+%Figure support for \includegraphics
+\usepackage{graphicx}
+
+%Control of caption font for figures and tables
+\usepackage[font=small]{caption}
+%Package for label
+\usepackage{hyperref}
+
+%Setting up how paragraphs are formatted
+\setlength{\parindent}{0mm}
+\setlength{\itemsep}{0ex}
+\setlength{\parskip}{2ex}
+\setlength{\parsep}{2ex}
+\setlength{\partopsep}{0ex}
+\setlength{\topsep}{0ex}
+
+%Swedish is supported once we add these packages
+\usepackage[swedish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+
+\title{
+{\bf Projektrapport DAT290}\\
+\vspace{0.2cm}
+%
+%Give the project name below
+%
+Samplat ljudsystem Projektgrupp 2\\ 
+\vspace{1cm}
+%
+%Give the project group member names below
+%Note that \\ terminates the line
+%
+Lucas B�ckvall, Ajla Cano,  \\
+Daniel Chai, Andreas Eriksson,\\
+ Adis Mahmutovic, Johan Ben Mohammad, \\
+ Linus Nilsson, Kevin Nordenh�g\\
+\vspace{1cm}
+2015-10-09\\
+\vspace{7cm}
+%
+%Give the name of the member responsible for review and the date
+%when the review was finalized.
+%
+%Give the project leader name and the date when the he/she approved
+%the project plan
+%
+%No signatures are necessary, but the names are as they give us *traceability*
+%
+\normalsize{
+  \begin{tabular}{|l|l|l|}  \hline
+              & \bf Namn                           & \bf Datum   \\ \hline \hline
+     Granskad &    Lucas B�ckvall                   & 2015-10-09  \\ \hline
+     Godk�nd  &        Ajla Cano           & 2015-10-09  \\ \hline
+  \end{tabular}}
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------
+
+\section{Introduktion}
+Ljudeffekter �r n�gonting som anv�nds mycket inom musik- och filmbranschen f�r att g�ra musik- och ljudupplevelsen s� bra som m�jligt. F�r att skapa dessa ljudeffekter s� till�mpas elektronisk utrustning, s� kallade ljudsystem. Dessa �r till f�r att omvandla ljud till digitala signaler. Hela processen g�rs i realtid vilket ger m�jlighet till l�ttare anv�ndning.
+\newline
+
+
+\subsection{Syfte}
+
+Med den moderna tekniken som m�nniskan besitter idag har m�jligheten till ljudmanipulation blivit mer och mer eftertraktad. En produkt som manipulerar ljud digitalt �r anv�ndbart eftersom man till skillnad fr�n ett analogt system inte beh�ver bygga om systemet f�r att g�ra �ndringar. M�jligheten att l�gga till en ekoeffekt skapar en illusion av att ljud spelas upp i ett stort rum. En slags tonkontroll kan �ven gynna vid detalj�ndringar n�r oljud p� en viss frekvens skall tas bort. Syftet med arbetet �r att framst�lla en stabil samplingsprodukt som kommer ge en eventuellt b�ttre lyssningsupplevelse genom olika effekter, s� som olika filter samt en ekoeffekt.
+
+\subsection{M�l}
+
+M�let med projektet �r att skapa ett system som kan hantera, behandla och manipulera analogt ljud som konverteras till digitala signaler. Produkten kommer att kunna l�sa av analoga ljudsignaler fr�n en vald k�lla och skicka ut ljudet igen efter eventuella redigeringar fr�n anv�ndaren. Inl�sningen kommer att ske i realtid f�r att sedan manipulera ljudet f�ljt av att det skickas vidare till l�mplig periferienhet. 
+F�r att s�kerst�lla anv�ndarv�nlighet kommer ett anv�ndargr�nssnitt ocks� att implementeras och p� s� s�tt g�ra det enklare att styra produkten. Redigeringar som anv�ndaren kan anv�nda sig av kommer att innefatta:
+
+\begin{itemize}
+  \item En funktion som kan skapa ett eko till ljudet, en effekt som �r mer k�nt som ``delay''.
+  \item Produkten kommer att st�dja en tonkontroll som m�jligg�r f�r anv�ndaren att s�nka eller h�ja styrkan p� tre olika frekvensomr�den, vilket till�ter mer avancerade ljudredigeringar. Inom musikbranschen �r funktionen k�nd som ``equalization''. 
+  \item M�let �r att vidareutveckla produkten p� s� s�tt att den besitter en �kad stabilitet genom att anv�nda flyttal i produktens kodning och programmering, eftersom att anv�ndingen av flyttal till�ter f�r mer exakta v�rden.
+
+\end{itemize}
+
+\subsection{Arbetsmetod}
+
+Utf�rande av ett projekt sker oftast i tv� steg: teoretiskt samt praktiskt. Den teoretiska delen handlar mycket om att f�rst� det �mnet projektet handlar om. De arbetsuppgifter som ing�r i teorin �r bland annat forskning, unders�kning samt inh�mtning av generell information som �r relevant. Teorin m�jligg�r att g� vidare med den praktikska delen av projektet. Den praktiska delen g�r ut p� att realisera och verkst�lla allt till en slutprodukt.
+
+\subsubsection{Kretskort} 
+En unders�kning av kretskortet och dess processor skedde f�r att f� en b�ttre uppfattning om funktionaliteten. F�rutom all �tkomst till referensmanualer, exempelkod samt olika datablad s� hittades mycket av informationen genom internets�kningar. D� kretskortet som anv�nds redan har de flesta essentiella delarna s� beh�vdes bara kunskap om dessa. Mer information i detalj ang�ende hur de ing�ende delarna funkar kan hittas under \ref{sec:Delsystem} Delsystem.
+
+\subsubsection{Grundsystem} 
+Mjukvarudelen av grundsystemet implementerades i utveckingsmilj�n Codelite. AD-koden testades f�rst
+genom att skicka in signaler till AD-omvandlaren med en signalgenerator, som sedan skrevs till
+serieporten p� det inbyggda systemet. DA-koden testades genom att genom serieporten mata in olika
+v�rden till det inbyggda systemet som matades ut till ett oscilloskop via DA-omvandlaren. N�r AD-
+och DA-koden fungerade var f�r sig sattes de ihop, och  hela systemet testades genom att skicka
+en signal igenom hela grundsystemet fr�n signalgenerator till oscilloskop. Sedan testades
+systemet med en riktig ljudsignal fr�n en ljudk�lla till h�gtalare.
+
+L�gpassfiltret som beh�vs innan AD-omvandlingen och efter DA-omvandlingen skall begr�nsa frekvensspannet till max halva samplingsfrekvensen. Samplingsfrekvensen �r 48 KHz, s� brytfrekvensen f�r filtret skall ligga p� max 24 KHz. Kopplingsschema f�r filtret samt formel f�r att ber�kna brytfrekvensen h�mtades fr�n dokumentet \emph{Filter Design} \cite{FilterDesign}.
+
+Omvandligarna fr�n unipol�r till bipol�romvandlingen och tv�rtom sker med en differansf�rst�rkare som �r designad enligt tidigare kunskaper \cite{OperationalAmplifiers}. Differansf�rst�rkaren b�de f�rsjuter och f�rst�rker, eller d�mpar, signalen. En konstant referenssp�nning avg�r f�rskjutningen, och v�rderna p� resistorerna avg�r f�rst�rkning eller d�mpning. Resistorer och referenssp�nning v�ljs ut baserat p� vilken omvandling som skall ske.
+
+\newpage
+\subsubsection{Anv�ndargr�nssnitt} 
+F�r anv�ndargr�nssnitt-programmets konstruktion valdes programmeringsspr�ket Java eftersom spr�kets inbyggda bibliotek \emph{Swing} �r till f�r anv�ndargr�nssnitt. Det till�ter en snabb konstruktion av ett system som b�de ser bra ut och �r l�tt att anv�nda. Spr�ket Java har �ven ett bibliotek som ger m�jlighet f�r kommunikation med serieporten, vilket �r n�got som beh�vde anv�ndas i det aktuella arbetet.
+
+\subsubsection{Ljudeffektsalgoritmer}
+Vid ljudeffektsalgoritmernas konstruktion kr�vdes en del faktainsamling inom hur ljud lagras och processas digitalt, samt om algoritmerna som skulle anv�ndas. F�r att kunna b�rja arbeta med algritmerna innan grundsystemet var klart implementerades de f�rst i ett PC program. PC-programmet skrevs i C f�r att kunna �teranv�nda s� mycket kod som m�jligt i slutprodukten. Som ers�ttning f�r komponenterna i grundsystemet anv�ndes en tongenerator ist�llet f�r AD-h�rdvaran och ljudkortet som tillh�r PCn ist�llet f�r DA-h�rdvaran. En f�renklad verison av algoritmerna implementerades, och n�r de fungerade ut�kades algoritmerna till att ha funktionaliteten som skulle finnas i slutprodukten.
+
+
+\subsubsection{Verktyg och Material}
+Vid framst�llningen av slutprodukten anv�ndes ett STMicroelectronics kretskort STM32F4DISCOVERY. Det �r ett inbyggt system med en 
+STM32F407VGT6 processor. I processorn finns b�de AD- och DA-omvandlare \cite{stmdata} \cite{stmuser}. F�r att kunna programmera och kommunicera med en extern enhet eller dator s� anv�ndes de inbyggda portarna f�r USB- och seriekommunikation. 
+Utvecklingsmilj�n \emph{CodeLite} anv�ndes under projektets g�ng samt tidigare kunskaper inom seriekommunikation. F�r att f� ner det skrivna programmet till processorn p� Discovery-kortet anv�ndes programmet \emph{ST Link}. F�r att kunna f� kommunikation mellan kretskortet och datorn s� anv�ndes XCCs terminal d�r grundsystemet fels�ktes och testades.
+
+\newpage
+\section{Teknisk beskrivning}
+Systemet i sin helhet g�r ut p� att ta emot ljud, l�gga p� ett filter och sedan skicka ut den nya ljudsignalen. Det �r ett digitalt samplingssystem som skall ta en analog ljudsignal och sampla fram en digital representation. Den digitala representationen modifieras av det inbyggda systemet och skall sedan skickas ut som en analog ljudsignal. Detta inneb�r inte bara en AD-omvandling, utan �ven omvandling mellan de olika signalspannen p� sj�lva systemet och vad h�rdvaran klarar av.
+
+\subsection{Bakgrund}
+Att behandla ljud digitalt ger flera f�rdelar. Digitala ljudfilter �r exakta och effekter kan implementeras med algoritmer i processorer. Dessutom �r dagens konsumenter vana vid att kunna spela upp ljud ifr�n sina digitala enheter. F�r att en processor skall �stadkomma detta beh�vs en metod f�r att hantera analoga signaler.
+
+En metod f�r att hantera analoga signaler �r att konvertera dem till digitala signaler med sampling. Kortfattat betyder det att sp�nningsniv�n i den analoga signalen sparas med j�mna mellanrum som ett digitalt bin�rtal \cite{adc}.
+
+Tv� vanliga ljudbehandlignar �r tonkontroll och ekoeffekt. Tonkontroll inneb�r att ljudstyrkan h�js eller s�nks i specifika frekvensomr�den. Ekoeffekten kan anv�ndas f�r att f� intrycket av att ljudet spelas i ett st�rre rum. Det kan ocks� anv�ndas ifall ett eko �nskas.
+
+\subsection{System�versikt}
+\label{sec:systemoversikt}
+% Vart f�rklarar vi unipol�r och bipol�r? F�rslag: Bakgrund i introduktion, f�re arbetsmetod
+% I Bakgrunden kan vi is�fall f�rklara i princip alla termer.
+En analog insignal konverteras till en digital signal s� signalen kan manipuleras av digitala algoritmer. P� figur \ref{fig:process} s� visas ljudsignalens v�g igenom systemet. Den analoga signalen omvandlas ifr�n bipol�r till unipol�r komponent f�r att matcha signalspannet som det inbygda systemet kan hantera. Sedan filtreras signalen i ett l�gpassfilter. Ljudet samplas av AD-omvandlaren till en digital signal. En klocka anv�nds f�r att synkronisera AD-omvandlingen, DA-omvandlingen och ljudbehandlingen. Efter AD-omvandlingen s� behandlas den digitala signalen av ljudeffektsalgoritmerna. Algoritmerna �r en tonkontroll och en ekoeffekt. Dessa anv�nder flyttal f�r att undvika klippning under behandlingen. Efter�t omvandlas ljudet tillbaka till analogt med DA-omvandlaren. Ljudet filtreras efter DA-omvandlingen, och konverteras tillbaka fr�n unipol�r till bipol�r.
+
+\begin{figure}[h!]
+  % Figuren m�ste �ndras. Fr�ga Lucas eller Andreas om vad som ska �ndras.
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/NEWprocess}
+  \caption{Ljudsignalens v�g igenom systemet.}
+  \label{fig:process}
+\end{figure}
+
+\newpage
+\subsection{Delsystem}
+\label{sec:Delsystem}
+H�r beskrivs varje delsystem. Delarna beskrivs i den ordningen signalen passerar igenom systemet, se figur \ref{fig:process}. Anv�ndargr�nssnittet, som st�r utanf�r signalv�gen, beskrivs precis innan signalbehandlingen eftersom anv�ndargr�nssnittets inst�llningar best�mmer hur signalbehandlingen g�r till.
+
+\subsubsection{Omvandlare fr�n bipol�r till unipol�r signal}
+Systemet f�ruts�tter en bipol�r analog signal med signalspann -2 till 2 volt som insignal. Eftersom AD-omvandlaren arbetar med en unipol�r analog signal med signalspann 0 till 3 volt s� beh�vs en omvandlare. Konvertering ifr�n bipol�r till unipol�r signal sker genom en differensf�rst�rkare, se figur \ref{fig:biuni}. Eftersom signalspannen f�r insignal och utsignal �r k�nda s� kan v�rdena p� resistorerna $R_1$ och $R_2$ samt den konstanta referenssp�nningensp�nningen $U_{offset}$ ber�knas med f�ljade formel:
+\newline
+\[U_{ut} = \frac{R_2}{R_1}(U_{in} - U_{offset})\]
+\newline
+
+Det framg�r av formeln att $U_{offset}$ emellan�t beh�ver vara negativ f�r att $(U_{in} - U_{offset})$ skall komma ovanf�r nollstrecket och d�rmed uppfylla definitionen av en unipol�r signal. Detta g�rs genom att, med hj�lp av en sp�nningsdelare (\ref{sec:spanning}), dela den negativa och konstanta sp�nningen fr�n n�taggregatet. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/Kopplingscheman/bipolar-till-unipolarPNG}
+  \caption{Kopplingsschema f�r sp�nningsdelare.}
+  \label{fig:biuni}
+\end{figure}
+
+\subsubsection{Sp�nningsdelare}
+\label{sec:spanning}
+%TODO: Tog tidigare bort en "(se figur x)" referens i texten innan den skickades in till f�rsta utkast. �r detta n�got som beh�ver l�ggas in igen?
+Omvandlaren fr�n bipol�r till unipol�r signal kr�ver en specifik konstant referenssp�nning, och omvandlaren fr�n unipol�r till bipol�r beh�ver en annan konstant referenssp�nning. En sp�nningsdelare, se figurer \ref{fig:spanning} och \ref{fig:spanning2}, kan ge oss det genom att s�nka sp�nningen p� en signal. Driftsp�nningen f�r f�rst�rkaren i omvandlaren fr�n bipol�r till unipol�r signal anv�nds som insignal till sp�nningsdelaren. Utsignalen kan nu best�mmas genom att r�kna p� resistorv�rden i f�ljande formel:
+\newline
+\[U_{out} = \frac{R_2}{R_1 + R_2} . U_{in}\]
+\newline
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/Kopplingscheman/resistorbaserad-spanningsdelare-2PNG}
+  \caption{Kopplingsschema f�r sp�nningsdelare.}
+  \label{fig:spanning}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/Kopplingscheman/resistorbaserad-spanningsdelarePNG}
+  \caption{Kopplingsschema f�r sp�nningsdelare.}
+  \label{fig:spanning2}
+\end{figure}
+
+\subsubsection{L�gpassfilter}
+Nyqvist-Shannons samplingsteori s�ger att om man vill undvika samplingsfel, b�r samplingsfrekvensen vara minst dubbla insignalsfrekvensen. F�r att undvika f�r h�ga frekvenser i insignalen anv�nds ett l�gpassfilter (se figur \ref{fig:lowpass}). N�r insignalens frekvens uppn�r ett best�mt v�rde b�rjar l�gpassfiltret s�nka styrkan p� insignalen och filtrerar d�rmed bort �verfl�diga insignaler. Eftersom systemets samplingsfrekvens �r 48 kHz �r gr�nsfrekvensen m�jlig att ber�kna enligt Nyqvistteorin. Utifr�n detta best�ms v�rdena p� filtrets �vriga komponenter enligt f�ljande formel:
+\newline
+\[f_c = \frac{1}{2\pi RC}\]
+\newline
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/Kopplingscheman/easy-low-pass-filterPNG}
+  \caption{Kopplingsschema f�r l�gpassfilter.}
+  \label{fig:lowpass}
+\end{figure}
+
+\subsubsection{Analog till digital omvandlare}
+
+Den analoga insignalen �terskapas digitalt genom att anv�nda en AD-omvandlare.
+AD-omvandlaren l�ses av med en samplingsfrekvens av 48 kHz. Detta g�rs genom att
+anv�nda en klocka som med den frekvensen utl�ser ett avbrott. Vid avbrottet l�ses
+ett sampel fr�n AD-omvandlaren. Samplet som f�s ut �r ett 12-bitars
+heltal \cite{stmdata}. Detta omvandlas till ett flyttal och skalas
+f�r att f� ett v�rde mellan -1.0 och +1.0, vilket �r vad resten av delsystemen
+arbetar med. Samplet skickas sedan vidare till n�sta steg i behandlingen.
+
+\newpage
+\subsubsection{Grafiskt anv�ndargr�nssnitt}
+
+Ett program p� PC anv�nds f�r att styra ljudeffektsalgoritmerna. Programmet
+best�r av ett enkelt grafiskt anv�ndargr�nssnitt som anv�nds f�r att st�lla in
+v�rden p� ett par olika parametrar. Programmet �r skrivet i Java. F�r att
+kommunicera med slutprodukten anv�nds en java-klass som beskrivs under
+rubriken \ref{sec:Serieportskommunikation} Serieportskommunikation.
+
+F�r tonkontrollsfiltret g�r det att st�lla in var gr�nserna p� frekvensbanden
+g�r samt hur stor f�r�ndring i volym som skall ske i varje frekvensband. F�r
+eko-algoritmen g�r det att st�lla in hur stor f�rdr�jning som sker mellan
+insignalen och ekot, samt hur stor volymminskning som ekot har j�mf�rt med
+insignalen. Mer information om hur man anv�nder programmet finns under
+rubriken \ref{sec:Anv�ndarhandledning} Anv�ndarhandledning.
+
+\subsubsection{Serieportskommunikation}
+\label{sec:Serieportskommunikation}
+
+Kommunikation mellan h�rdvara och PC g�rs via en serieport. Denna anv�nds f�r att 
+skicka parametrarna som de digitala filtren skall anv�nda fr�n PC till h�rdvara.
+Kommunikationen sker med en serieportskonfiguration p� 9600 baud med en
+stoppbit och ingen paritet.
+
+Protokollet som anv�nds �r textbaserat. Kommandon skickas fr�n PC p� formen
+$XNZ$ d�r $X$ �r en bokstav som anger vilken parameter som skall s�ttas, $N$ �r v�rdet
+p� parametern vilket kan vara en eller flera siffror. Tecknet $Z$ skickas f�r 
+att indikera att kommandot har n�tt sitt slut. Alla andra tecken ignoreras.
+Siffran konverteras till flyttal p� h�rdvarusidan genom att dividera talet
+det f�r med 10 000, vill man till exempel s�tta parameter A till 12.34 s� skickar man
+kommandot A123400Z.
+
+P� PC-sidan best�r kommunikationen av en java-klass som har metoder f�r att 
+s�tta parametrarna, omvandlar dessa till serieportskommandon, och skickar
+kommandorna via angiven serieport. Klassen anv�nder sig av Java Communications API
+fr�n javas standardbibliotek f�r att hantera kommunikation med serieporten.
+Java-klassen g�r �ven en del ber�kningar, signalstyrkef�r�ndringar r�knas om
+fr�n decibel till den linj�ra omr�kningsfaktor som h�rdvaran tar som 
+parameter. Det finns ingen metod f�r att s�tta den maximala teoretiska volymen,
+utan denna r�knas ut av v�rderna av de andra parametrarna, och skickas som ett
+extra kommando n�r n�got av parametrarna den beror p� har �ndrats.
+
+P� h�rdvarusidan s� best�r kommunikationen av en funktion som l�ser av och 
+tolkar meddelanden som kommer in. N�r den har f�tt ett komplett och korrekt
+kommando lagrar den det nya v�rdet p� parametern i minnet d�r de andra delarna
+av programmet l�ser av den. All annan indata ignoreras. Det finns ocks� en
+samling funktioner som skriver information till serieporten som �r avsedda att 
+anv�ndas vid fels�kning.
+
+% TODO: Tabell �ver parametrar
+
+\subsubsection{Tonkontrollsfilter}
+
+Tonkontrollsfiltret h�jer eller s�nker amplituden p� signalen i angivna
+frekvensband. Filtret st�djer kontroll i tre olika frekvensband, dessa band
+�verlappar inte och t�cker tillsammans in hela frekvensomr�det. Filtret �r
+implementerat i mjukvara i form av en funktion i programmerinsspr�ket C.
+
+Filtret best�r av en funktion som tar in ett sampel, g�r en uppskattning av
+vad den nuvarande frekvensen �r, och multiplicerar samplet med en
+omr�kningsfaktor beroende p� vilket frekvensband samplet ligger i.
+Omr�kningsfaktorerna �r angivna som parametrar till funktionen. Den 
+nuvarande frekvensen uppskattas genom att r�kna hur m�nga samplar det g�r 
+mellan varje g�ng signalen passerar nollniv�n. Det antalet divideras sedan med 
+halva samplingsfrekvensen f�r att f� en uppskattning av den nuvarande
+frekvensen.
+
+I omr�den som ligger n�ra gr�nserna f�r frekvensbanden anv�nds inte den 
+angivna omr�kningsfaktorn rakt av, utan funktionen g�r en linj�r interpolering
+av de b�da faktorerna f�r frekvensbanden, med olika vikt givet till faktorerna
+beroende p� hur n�ra och vilken sida av gr�nsen den nuvarande frekvensen �r. 
+Hur l�ngt ifr�n gr�nsen som interpoleringen sker �r beroende p�
+hur h�g frekvensengr�nsen �r. Detta f�r att kompensera f�r att det
+m�nskliga �rat uppfattar storleken p� f�r�ndringar i ljud beroende p� hur h�g
+frekvensen �r.
+
+% TODO: Figur som illustrerar tonkontrollsfiltret med interpolering]
+
+\subsubsection{Ekoeffektsfilter}
+
+Ekoeffektsfiltret l�gger p� en ekoeffekt genom att kombinera den nuvarande 
+signalen med en tidigare signal vars volym har minskats. Filtret �r 
+implementerat i mjukvara i form av en funktion i programmeringsspr�ket C.
+%TODO: I en av meningarna blir det mycket sampel. G�r att omkonstruera meningen?
+Funktionen har en buffert d�r den sparar tidigare samplar. Storleken p� 
+bufferten anges som en parameter, och genom den kan man styra f�rdr�jningen 
+mellan signalen och ekot, eftersom f�rdr�jningen blir lika med det antal 
+samplar delat p� samplingsfrekvensen. N�r funktionen k�rs p� ett sampel s�
+adderar den samplet med samplet som ligger p� nuvarande position i bufferten.
+Den kopierar sedan det kombinerade samplet till bufferten, samtidigt som den
+multiplicerar kopian med en omr�kningsfaktor f�r att minska volymen.
+Omr�kningsfaktorn f�r volymen anges som en parameter till funktionen. Den g�r
+sedan till n�sta plats i bufferten. N�r funktionen n�r slutet av bufferten s�
+b�rjar den om p� f�rsta positionen, och p� s� s�tt f�s ett eko som repeteras
+kontinuerligt, med volymen minskad mellan varje repetition.
+
+% TODO: Figur?
+
+\subsubsection{Digital till analog omvandlare}
+Funktionen som styr DA-omvandligen tar ett sampel. F�r att undvika klippning
+s� skalar den ner amplituden s� att samplet hamnar inom signalomf�nget
+genom att dividera samplet med det h�gsta teoretiska amplitud som ett sampel
+kan ha efter de andra stegen. Den skalar d�refter om samplet till ett
+12-bitars heltal, vilket �r vad DA-omvandlaren f�rv�ntar sig som indata \cite{stmdata}.
+Den skickar d�refter samplet till DA-h�rdvaran.
+
+\subsubsection{Utj�mningsfilter}
+DA omvandlaren skapar en analog signal av diskreta v�rden, s� den analoga signalen ser ut som en trappa. Ett exakt likadant l�gpassfilter som anv�ndes innan AD-omvandlingen anv�nds f�r att �terskapa en kontinuerlig signal.
+
+\subsubsection{Omvandlare fr�n unipol�r till bipol�r signal}
+
+Systemet f�ruts�tter en bipol�r analog signal med signalspann -2 till 2 volt som utsignal. Eftersom DA-omvandlaren arbetar med en unipol�r analog signal med signalspann 0 till 3 volt s� beh�vs en omvandlare. Konvertering fr�n bipol�r till unipol�r signal sker med en differensf�rst�rkare (se figur \ref{fig:unibi}). Eftersom signalspannen �r k�nda och referenssp�nningen �r satt till 1,6 volt kan v�rdena p� resistorerna ber�knas enligt f�ljade formel:
+\newline
+\[U_{out} = \frac{R_4}{R_1} . \frac{R_1 + R_2}{R_3 + R_4} . U_{in1} - \frac{R_2}{R_1} . U_{in2}\]
+\newline
+H�r ser man att om man s�tter $R_4 = R_2$ och $R_3 = R_1$, f�s f�ljande formel: 
+\newline
+\[U_{out} = \frac{R_2}{R_1} (U_{in1} - U_{in2})\]
+\newline
+Den sistn�mnda formeln �r enklare att ber�kna och l�mpar sig b�ttre �n f�reg�ende f�r unipol�r till bipol�r konvertering. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1\columnwidth]{../figurer/Kopplingscheman/unipolar-till-bipolarPNG}
+  \caption{Kopplingsschema f�r unipol�r till bipol�r omvandlare.}
+  \label{fig:unibi}
+\end{figure}
+
+\newpage
+\section{Anv�ndarhandledning}
+\label{sec:Anv�ndarhandledning}
+% TODO: Det skall l�ggas till n�gra bilder efter att texten �r f�rdig.
+% Det borde finnas tydligare beskrivning p� vad det finns f�r knappar och vad de g�r,
+% mer i linje med en manual.
+% Det borde �ven finnas en beskrivning av hur anv�ndaren anv�nder h�rdvaran
+
+Den som anv�nder produkten kommer att ha tillg�ng till ett anv�ndargr�nssnitt som �r skapat f�r att underl�tta styrandet av ljudeffekterna som finns tillg�ngliga i h�rdvaran. Anv�ndargr�nssnitts-programet har konstruerats med avsikten att den skall vara tydlig och l�tt att anv�nda. Med enkla knapptryck g�r det att navigera mellan de olika funktionerna samt st�lla in och �ndra v�rden med olika glidare, till exempel att st�lla in nya frekvensintervaller vid tonkontrollen och volymniv�er. Anv�ndargr�nssnitts-programet till�ter f�r kontroll av en ekoeffekt samt tonkontroll och �r konstruerat s� att f�r�ndringar i inst�llningar tr�der i kraft direkt n�r �ndringar sker.
+
+\subsection{Ekoeffekt}
+Vid kontroll av ekoeffekten finns m�jligheten att st�lla in ekots f�rdr�jning samt ljudniv�. D�refter g�r det �ven att v�lja mellan olika f�rhandsinst�llda l�gen som p�verkar ekoeffekten p� olika s�tt och som kan passa in vid olika typer av arbeten.
+
+\subsection{Tonkontroll}
+F�r att styra tonkontrollen finns det tillg�ng f�r tre glidare som s�nker eller h�jer volymen p� respektive frekvensintervall d�r det finns ett l�gt, mellan och h�gt frekvensintervall. Tonkontrollen till�ter �ven f�r f�r�ndring av dessa frekvensintervall med hj�lp av en knapp f�r varje frekvensintervall d�r gr�nserna f�r intervallen g�r att �ndra p�, om justeringar skulle beh�vas p� lite mer detaljerat plan.
+
+\section{Resultat}
+%TODO: OBS: "Togglar", "output" p� andra paragrafen. Finns det svenska ord f�r dessa? Det hoppas �ven r�tt mycket mellan presens och imperfekt i texten. �ven om vi det trots allt �r tv� olika tider vi snackar om kan det vara en tanke att skriva allt i imperfekt form och l�tsas som att vi skriver Resultatet efter att uppgiften redan har avslutats? D
+F�ljande tester har utf�rts p� systemet:
+
+Vid varje avbrott s�tts signalen i DA-omvandlaren till omv�xlande h�g och l�g. I ett oscilliskop synns d� en fyrkantsv�g med frekvensen 24 kHz. Detta verifierar att avbrotten sker med en frekvens p� 48 kHz.
+
+Den analoga signalen som l�ses av f�rs igenom en differensf�rst�rkare f�r att konvertera signalen till bipol�r fr�n unipol�r. En signal som gick fr�n -2 till 2 volt skickades igenom differensf�rst�rkaren, och med ett oscilloskop uppm�ttes utsignalen att g� mellan 0 och 3 volt.
+\newpage
+En funktionsgenerator genererar signaler med olika frekvenser. Signalerna passerar l�gpassfiltret och utsignalen m�ts av ett oscilloskop. Om insignalens frekvens �verskred brytfrekvensen s� d�mpades utsignalen. Signalstyrkan s�nks lite f�r tidigt i v�ra filter j�mf�rt med ett idealt filter. Ett �nskv�rt filter f�r�ndrar inte amplituden innan 24 kHz och d�refter sl�r �ver signalstyrkan till 0 volt. V�rt filter b�rjar minska amplituden innan 24 kHz och sl�r inte ut vid 24 kHz utan forts�tter minska. I och med att frekvensen efter filtret inte n�tt 0 kan det uppkomma st�rningar i utsignalen.
+
+Omvandlingen av analog till digital signal sker i AD-omvandlaren. Detta testades genom att med hj�lp av en funktionsgenerator skicka in en sinuskurva som g�r mellan 0 till 3 volt. AD-omvandlarens v�rde skrivs ut i en terminal via seriekommunikation. De utskrivna v�rdena varierade mellan 0 och $2^{12}$, vilket �r de teoretiskt f�rv�ntade v�rdena i en 12 bitars AD-omvandlare.
+
+Omvandlig av digital till analog signal realiseras med DA-omvandlaren. Omvandlaren testades genom att ett v�rde skickades in till omvandlaren som konverterade till en sp�nning. Om 0 skickas in, kom 0 volt ut. Om det teoretiska maxv�rdet (4095) skickas in m�ttes 3 volt upp.
+
+Den analoga signalen som l�ses av f�rs igenom en differensf�rst�rkare f�r att konvertera signalen till bipol�r fr�n unipol�r. En signal som gick fr�n 0 till 3 volt skickades igenom differensf�rst�rkaren, och med ett oscilloskop uppm�ttes utsignalen att g� mellan -2 och 2 volt.
+
+
+%TODO: Skriva om DSP.
+
+\section{Diskussion}
+%TODO: I paragraf 2: "En produkt med ett filter som ej f�r�ndrar insignalfrekvensen korrekt skulle resultera i ett samplingssystem som inte �terspelar ljuden man spelade in, utan en f�rvr�ngd version av ljudinspelningen" denna mening �r identisk med en mening som finns tidigare i texten under "Sp�nningsdelare". Kan vara bra att skriva om en av dem. D
+Syftet med det h�r projektet var att skapa en samplingprodukt som skall hj�lpa till att f�rb�ttra lyssnarupplevelsen. F�r att skapa denna produkt kr�vs flera delsystem som beh�ver separata tester och delat fokus.  
+
+Vid tester som utf�rdes p� l�gpassfiltret fokuserades det p� att unders�ka utsignalens frekvens j�mf�rt med insignalens. F�r att undvika s� stora samplingsfel som m�jligt b�r filtrets gr�nsfrekvens vara h�lften s� stor som samplingsfrekvensen. Det var just detta testerna av l�gpassfiltret gick ut p�, att unders�ka var filtret b�rjar reducera styrkan p� signalen i fr�ga och hur mycket. En produkt med ett filter som ej f�r�ndrar insignalfrekvensen korrekt skulle resultera i ett samplingssystem som inte �terskapar insignalen, utan en f�rvr�ngd version av denna. Om man �ven senare l�gger p� ljudeffekter p� signalen �r resultatet sv�rt att f�ruts�ga.
+
+Testerna av differensf�rst�rkarna handlade om att konvertera en unipol�r signal till en bipol�r och vice versa. Sv�righeterna vid koppling av dessa f�rst�rkare var att ber�kna r�tt v�rden p� resistorer och offset-sp�nning f�r att f� en optimal utsignal. Tanken var f�rst att anv�nda en summerande f�rst�rkare vid konvertering fr�n bipol�r till unipol�r signal. Detta rekommenderades inte av handledaren. Vi ins�g sedan att samma effekt kunde realiseras med hj�lp av en konstant negativ offset-sp�nning i formeln f�r differensf�rst�rkare. Eftersom vi k�nde till spannen f�r ut- och insignal kunde vi med hj�lp av ekvationerna, tillh�rande differensf�rst�rkare, ber�kna dessa v�rden. Vi upplevde att de teoretiskt utr�knade v�rdena inte st�mde �verrens med de v�rden som uppm�ttes. Visserligen var de teoretiska v�rdena inte helt korrekta, d� vi enbart kunde v�lja v�rden p� motst�nd och kondensatorer utifr�n E12-serien. D�rf�r var vi tvungna att seriekoppla tv� par resistorer och �ndra offset-sp�nningarna f�r att f� en optimal utsignal. �ndring av offset-sp�nning innebar ytterligare problem d� �ven OP-f�rst�rkaren beh�ver sin driftsp�nning som ligger i ett intervall. Detta problemet kunde l�sas med hj�lp av sp�nningsdelare.
+
+Sp�nningsdelarna anv�nds f�r att dela upp sp�nning, exempelvis om det skulle beh�vas olika sp�nningar men enbart har tillg�ng till positiv sp�nning fr�n ett n�taggregat. Vad vi ville �stadkomma med dessa var att f� en l�mplig offset-sp�nning till var och en av differensf�rst�rkarna. Anledningen till anv�ndning av v�ra sp�nningsdelare var att vi inte ville s�nka offset-sp�nningen till f�rst�rkarna, utan att p�verka OP-f�rst�rkarens funktionalitet.
+
+F�r att vara s�kra p� att effekter som till exempel ekoeffekten fungerar innan det implementeras till samplingssystemet anv�ndes som tidigare n�mnts tester i form av simuleringar p� datorn. Detta gjorde att man med s�kerhet vet att koden till effekten fungerar och att det f�rmodligen enbart kr�vs sm� justeringar f�r koden att fungera med hela systemet. Denna princip anv�ndes f�r alla effekter som finns tillg�ngliga p� anv�ndargr�nssnittet.
+
+Serieportskommunikationen var av stor vikt f�r att kunna testa grundsystemet i sin helhet. Under projektets g�ng uppstod dock problem och kommunikationen mellan PC och mikrodatorn tycktes inte fungera. Vid testf�rs�k uppm�rksammades fel p� h�rdvaran och vissa komponenter beh�vdes bytas ut. Detta problem resulterade i att grundsystemet ej blev klart i tid och milstolpen f�r grundsystemet bler f�rskjuten n�gra dagar.
+
+
+%subsection{Komponenter}  -  ?
+
+
+
+%\section{Slutsats}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{referenser}
+
+\end{document}

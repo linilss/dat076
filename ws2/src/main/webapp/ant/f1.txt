@@ -1,0 +1,14 @@
+api samling fkner
+ramverk: halv applikation - nånting händer
+plattform : stor mjukavarumiljö (servrar)
+
+node : miljö för att interpretera js
+
+pusha inte node_modules, git ignore
+
+måste köra js efter trädet
+
+es6 import och export 
+
+jQuery ett DOM-api
+

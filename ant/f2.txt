@@ -1,0 +1,11 @@
+.net finns redan server, jee låter en skriva den själv (glassfish, widefly)
+
+DAO-skikt sköter om Model-skikt
+
+@Named - cdi-bean
+request/session-scoped säger hur lägne beanen ska leva
+
+semantic url - har någon betydelse, isbn exempelvis
+
+
+

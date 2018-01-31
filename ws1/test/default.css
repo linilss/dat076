@@ -1,0 +1,18 @@
+body{
+	margin: 2px;
+	padding: 0;
+}
+
+#big-one{
+	background: lightgrey;
+	color:red;
+	border-radius: 10px;
+	text-align: center;
+}
+p{
+	font-size: 44px;
+    font-family: 'Supermercado One', cursive;
+}
+.internal-links{
+	border: 2px solid blue;
+}
