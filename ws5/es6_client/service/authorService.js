@@ -6,8 +6,8 @@ class AuthorService {
 
   constructor() {
     // Possible need to modify this
-    //this.baseUrl = "http://localhost:8080/ws4/rest/author/";
-    this.baseUrl = "http://localhost:8080/api/authors/";
+    this.baseUrl = "http://localhost:8080/ws4/rest/author/";
+    //this.baseUrl = "http://localhost:8080/api/authors/";
   }
 
   findAll(callback) { // Callback is a function
@@ -42,9 +42,12 @@ class AuthorService {
 
   find(id, callback) {
     // NOT tested, just a hint ...
+    console.log(id);
     $.ajax({
         url: this.baseUrl + id,
-        method: "GET"
+        method: "GET",
+        crossDomain: true,
+        context: this, // MUST have!!!
       }).done(data => {
         callback(data);
       })
@@ -54,10 +57,30 @@ class AuthorService {
   }
   delete(id) {
     // TODO
+    console.log(id);
+    console.log(this.baseUrl+id);
+    $.ajax({
+        url: this.baseUrl + id,
+        type: "DELETE",
+        dataType: "json",
+        crossDomain: true,
+        context: this, // MUST have!!!
+      })
+      .fail(msg => {
+        console.log(msg);
+      })
   }
 
-  update() {
+  update(id) {
     // TODO
+    $.ajax({
+        url: this.baseUrl + id,
+        method: "UPDATE"
+    }).done(data => {
+        callback(data);
+    }).fail(msg => {
+        console.log(msg);
+    })
   }
 }
 
