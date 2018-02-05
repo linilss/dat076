@@ -6,13 +6,15 @@ import {
   authService as as
 } from "../service/authorService.js"
 
+
 as.findAll(data => {
   console.log(data);
 });
 
-as.find("FF", data => {
+as.find("NN", data => {
   console.log(data);
 });
+
 
 /*
 let a = new Authot

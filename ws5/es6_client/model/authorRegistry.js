@@ -50,16 +50,16 @@ class AuthorRegistry {
 
   update(author) {
     // TODO Add AJAX
-    var a = find(author.id);
-    this.authors = this.authors.filter(elem => elem !== a);
-    this.authors.push(author);
-    eB.notify("UPDATE", this.authors);
+    as.update(author.id, author, data => {
+      return eB.notify("PUT", author);
+    });
   }
 
   delete(id) {
     // TODO Add AJAX
-    as.delete(id);
-    eB.notify("", id);
+    as.delete(id, data => {
+      return eB.notify("DELETE", id);
+    });
     //this.authors = this.authors.filter(elem => elem !== a);
     //eB.notify("DELETE", this.authors);
   }

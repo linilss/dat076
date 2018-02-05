@@ -38,12 +38,13 @@ class AuthorService {
       .fail(msg => {
         console.log(msg);
       })
+    window.location.reload(true);
   }
 
   find(id, callback) {
     // NOT tested, just a hint ...
     console.log(id);
-    $.ajax({
+    window.$.ajax({
         url: this.baseUrl + id,
         method: "GET",
         crossDomain: true,
@@ -55,32 +56,43 @@ class AuthorService {
         console.log(msg);
       })
   }
-  delete(id) {
+  delete(id, callback) {
     // TODO
     console.log(id);
     console.log(this.baseUrl+id);
-    $.ajax({
+    window.$.ajax({
         url: this.baseUrl + id,
         type: "DELETE",
         dataType: "json",
         crossDomain: true,
         context: this, // MUST have!!!
+      }).done(data => {
+        console.log("deleted " + id);
       })
       .fail(msg => {
         console.log(msg);
       })
+    window.location.reload(true);
+
   }
 
-  update(id) {
+  update(id, author, callback) {
     // TODO
-    $.ajax({
+    console.log(JSON.stringify(author));
+     window.$.ajax({
         url: this.baseUrl + id,
-        method: "UPDATE"
-    }).done(data => {
-        callback(data);
-    }).fail(msg => {
+        data: JSON.stringify(author),
+        method: "UPDATE",
+        dataType: "json",
+        crossDomain: true,
+        context: this, // MUST have!!!
+      }).done(data => {
+        console.log("updated " + author.id);
+      })
+      .fail(msg => {
         console.log(msg);
-    })
+      })
+    //window.location.reload();
   }
 }
 
